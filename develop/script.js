@@ -91,28 +91,50 @@ const generateRandomNum = (num) => {
   return Math.floor(Math.random() * num);
 };
 
-const generatePassword = (limit) => {
+const generatePassword = (
+  limit,
+  wantLowerCase,
+  wantUpperCase,
+  wantSpecialChar,
+  wantNumbers
+) => {
   let randomPasswordCharacters = [];
-  for (let x = 0; x < limit; x++) {
-    let randomNum = generateRandomNum(4);
 
-    switch (randomNum) {
+  const action = [
+    wantUpperCase && "0",
+    wantLowerCase && "1",
+    wantNumbers && "2",
+    wantSpecialChar && "3",
+  ].filter((item) => {
+    if (item) return item;
+  });
+
+  for (let x = 0; x < limit; x++) {
+    const randomNum = generateRandomNum(action.length);
+
+    const actionNumber = parseInt(action[randomNum]);
+
+    switch (actionNumber) {
       case 0:
+        //random
         let randomUpcaseNum = generateRandomNum(25);
         let upperCaseLetter = upperCaseLetters[randomUpcaseNum];
         randomPasswordCharacters.push(upperCaseLetter);
         break;
       case 1:
+        // random lowercase
         let randomLoCaseNum = generateRandomNum(25);
         let loCaseletter = lowerCaseLetters[randomLoCaseNum];
         randomPasswordCharacters.push(loCaseletter);
         break;
       case 2:
+        // Random number
         let randomNumNum = generateRandomNum(9);
         let randomNumNumNum = numbers[randomNumNum];
         randomPasswordCharacters.push(randomNumNumNum);
         break;
       case 3:
+        // Special charaters
         let randomSpecialChar = generateRandomNum(23);
         let randomSpecialCharacter = specialChar[randomSpecialChar];
         randomPasswordCharacters.push(randomSpecialCharacter);
@@ -138,17 +160,39 @@ function writePassword() {
     writePassword();
   }
 
-  let wantLowerCase = confirm("Would you like Lower case letters?");
-
   let wantUpperCase = confirm("Would you like Upper case letters?");
+
+  let wantLowerCase = confirm("Would you like Lower case letters?");
 
   let wantSpecialChar = confirm("Would you like Special characters?");
 
-  if (howLongIsPassword !== "") {
-    let password = generatePassword(howLongIsPassword);
-    let passwordText = document.querySelector("#password");
+  let wantNumbers = confirm("Would you like to use numbers?");
 
-    passwordText.value = password;
+  const wantedArray = [
+    wantUpperCase,
+    wantLowerCase,
+    wantSpecialChar,
+    wantNumbers,
+  ].filter((i) => {
+    if (i) return i;
+  });
+
+  if (wantedArray.length <= 1) {
+    alert("Please select at least two types of characters for your password!");
+    writePassword();
+  } else {
+    if (howLongIsPassword !== "") {
+      let password = generatePassword(
+        howLongIsPassword,
+        wantLowerCase,
+        wantUpperCase,
+        wantSpecialChar,
+        wantNumbers
+      );
+      let passwordText = document.querySelector("#password");
+
+      passwordText.value = password;
+    }
   }
 }
 
