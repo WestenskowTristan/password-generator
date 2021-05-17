@@ -17,8 +17,7 @@ If you are needing a new password and cant think of any, use this password gener
 
 ## Installation
 
-All you need to do is clone this repo to your local machine and run the index.html file in your browser and click the generate password button and follow prompts
-
+All you need to do is follow this link https://westenskowtristan.github.io/password-generator/develop/index.html
 ## Usage
 
 N/A
